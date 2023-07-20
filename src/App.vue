@@ -17,28 +17,8 @@
 </template>
 
 <script>
-import { getDatabase, ref, onValue } from "firebase/database";
 export default {
   name: "app",
-  data() {
-    return {
-      name: "",
-      pets: [],
-    };
-  },
-  methods: {
-    getPets() {
-      const db = getDatabase();
-      const petsRef = ref(db, "pets");
-      onValue(petsRef, (snapshot) => {
-        const data = snapshot.val();
-        this.pets = Object.keys(data).map((key) => ({
-          id: key,
-          ...data[key],
-        }));
-      });
-    },
-  },
 };
 </script>
 
@@ -92,6 +72,18 @@ body {
 p {
   margin: 0;
   text-align: left;
+}
+
+input,
+select {
+  border: 1px solid #ff738c;
+  border-radius: 4px;
+  padding: 5px;
+  box-sizing: border-box;
+
+  &:focus-visible {
+    outline: 2px solid #ff738c;
+  }
 }
 
 .primary-btn {

@@ -20,18 +20,21 @@
 <script>
 export default {
   name: "ChoosePet",
-  data() {
-    return {
-      pets: this.$store.state.pets,
-    };
+  computed: {
+    pets() {
+      return this.$store.state.pets;
+    },
+  },
+  beforeMount() {
+    this.$store.dispatch("getPets");
   },
   methods: {
     goToBrowse(id) {
-      this.$store.commit("setPetId", id);
+      this.$store.dispatch("getPetData", id);
       this.$router.push({ name: "browse", params: { petId: id } });
     },
     goToAddPet() {
-      this.$store.commit("clearPetId");
+      this.$store.commit("clearPetData");
       this.$router.push({ name: "new" });
     },
   },
@@ -53,6 +56,7 @@ export default {
   column-gap: 20px;
   box-sizing: border-box;
   padding-inline: 20px;
+  row-gap: 20px;
 }
 .pet {
   border: 2px solid #ff738c;

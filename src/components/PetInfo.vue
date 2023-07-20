@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <ul>
+    <ul v-if="currentPet">
       <li>
         <div class="label">Name</div>
         <div class="value">{{ currentPet.name }}</div>
@@ -23,7 +23,7 @@
       </li>
       <li>
         <div class="label">Weight</div>
-        <div class="value">{{ currentPet.currentWeight }}kg</div>
+        <div class="value">{{ currentPet.weight }}kg</div>
       </li>
       <li>
         <div class="label">Chip number</div>
@@ -31,7 +31,7 @@
       </li>
       <li>
         <div class="label">Birthday</div>
-        <div class="value">{{ currentPet.birthDate }}</div>
+        <div class="value">{{ currentPet.birthday }}</div>
       </li>
     </ul>
     <router-link to="/new" class="primary-btn">Edit info</router-link>

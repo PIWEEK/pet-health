@@ -42,7 +42,7 @@
         <input type="text" name="color" v-model="form.color" />
       </div>
       <div class="block">
-        <label class="label" for="weight">Weight</label>
+        <label class="label" for="weight">Weight (kg)</label>
         <input type="number" name="weight" v-model="form.weight" />
       </div>
       <div class="block">
@@ -52,6 +52,10 @@
       <div class="block">
         <label class="label" for="birthday">Birthday</label>
         <input type="date" name="birthday" v-model="form.birthday" />
+      </div>
+      <div class="block">
+        <label class="label" for="image">Image url</label>
+        <input type="text" name="image" v-model="form.image" />
       </div>
       <button type="button" @click="checkForm" class="primary-btn">Save</button>
     </form>
@@ -80,13 +84,16 @@ export default {
           ? this.$store.state.currentPet.color
           : "",
         weight: this.$store.state.currentPet
-          ? this.$store.state.currentPet.currentWeight
+          ? this.$store.state.currentPet.weight
           : "",
         chipNumber: this.$store.state.currentPet
           ? this.$store.state.currentPet.chipNumber
           : "",
         birthday: this.$store.state.currentPet
-          ? this.$store.state.currentPet.birthDate
+          ? this.$store.state.currentPet.birthday
+          : "",
+        image: this.$store.state.currentPet
+          ? this.$store.state.currentPet.image
           : "",
       },
       error: "",
@@ -96,8 +103,7 @@ export default {
     checkForm() {
       if (this.form.name) {
         this.error = "";
-        // save form
-        console.log(this.form);
+        this.$store.dispatch("savePet", this.form);
         this.$router.push({ name: "choose-pet" });
       } else {
         this.error = "Name is required.";
@@ -126,17 +132,6 @@ export default {
   box-sizing: border-box;
   inline-size: 100%;
   text-align: left;
-}
-input,
-select {
-  border: 1px solid #ff738c;
-  border-radius: 4px;
-  padding: 5px;
-  box-sizing: border-box;
-
-  &:focus-visible {
-    outline: 2px solid #ff738c;
-  }
 }
 .primary-btn {
   inline-size: 100%;
