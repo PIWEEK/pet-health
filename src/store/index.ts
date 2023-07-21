@@ -7,6 +7,7 @@ import {
   set,
   push,
   update,
+  remove,
 } from "firebase/database";
 
 export default createStore({
@@ -47,8 +48,25 @@ export default createStore({
             ...currentPetWeights[key],
           };
         });
+        state.currentPetWeight = state.currentPetWeight.sort((a,b) => {
+          return new Date(a.date) - new Date(b.date);
+        });
       } else {
         state.currentPetWeight = null;
+      }
+    },
+    setMedicalRecords(state, data) {
+      const currentPetMedicalRecords = data.medicalRecords[data.id];
+      if (currentPetMedicalRecords) {
+        const keys = Object.keys(currentPetMedicalRecords);
+        state.medicalRecords = keys.map((key) => {
+          return {
+            id: key,
+            ...currentPetMedicalRecords[key],
+          };
+        });
+      } else {
+        state.medicalRecords = null;
       }
     },
     updateWeight(state, weight) {
@@ -58,6 +76,12 @@ export default createStore({
     },
     setNewPet(state, pet) {
       state.pets = [...state.pets, pet];
+    },
+    updateDeletedWeight(state, id) {
+      console.log(state.currentPetWeight);
+      state.currentPetWeight = state.currentPetWeight.filter(
+        (weight) => weight.id !== id
+      );
     },
   },
   actions: {
@@ -80,10 +104,26 @@ export default createStore({
       get(child(dbRef, "weight"))
         .then((snapshot) => {
           if (snapshot.exists()) {
-            console.log(id, snapshot.val());
             return commit("setPetData", {
               id: id,
               weightData: snapshot.val(),
+            });
+          } else {
+            console.log("No data available");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    getMedicalRecords({ commit }) {
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, "medicalrecords"))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            return commit("setMedicalRecords", {
+              id: this.state.currentPetId,
+              medicalRecords: snapshot.val(),
             });
           } else {
             console.log("No data available");
@@ -114,6 +154,15 @@ export default createStore({
       updates[`/weight/${this.state.currentPetId}/${id}`] = weight;
 
       return update(ref(db), updates);
+    },
+    deleteWeight({ commit }, id) {
+      commit("updateDeletedWeight", id);
+      const db = getDatabase();
+      // const updates = {};
+      // updates[`/weight/${this.state.currentPetId}/${id}`] = null;
+
+      // return update(ref(db), updates);
+      remove(ref(db, `weight/${this.state.currentPetId}/${id}`));
     },
   },
   modules: {},

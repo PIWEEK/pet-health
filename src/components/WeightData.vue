@@ -1,18 +1,25 @@
 <template>
   <div class="main-container">
-    <ul>
+    <ul v-if="weightData && weightData.length">
       <li>
         <div class="label">Date</div>
-        <div class="label">Weight</div>
+        <div class="label margin-right">Weight</div>
       </li>
       <li v-for="weight in weightData" :key="weight.id">
-        <div class="value">{{ weight.date }}</div>
-        <div class="value">{{ weight.weight }}kg</div>
+        <div class="value">{{ getDate(weight.date) }}</div>
+        <div class="last">
+          <div class="value">{{ weight.weight }}kg</div>
+          <div class="delete" @click="deleteWeight(weight.id)">X</div>
+        </div>
       </li>
     </ul>
+    <div v-else class="no-data">
+      <img alt="" class="empty-icon" src="../assets/weight-big.png" />
+      <p>There aren't weight records yet</p>
+    </div>
     <form class="form" v-if="showForm">
       <div class="block">
-        <label class="label hide" for="date">Birthday</label>
+        <label class="label hide" for="date">Date</label>
         <input type="date" name="date" v-model="form.date" />
       </div>
       <div class="block">
@@ -44,7 +51,7 @@
 
 <script>
 export default {
-  name: "PetInfo",
+  name: "weightData",
   computed: {
     weightData() {
       return this.$store.state.currentPetWeight;
@@ -61,6 +68,9 @@ export default {
     };
   },
   methods: {
+    getDate(date) {
+      return new Date(date).toLocaleDateString();
+    },
     toggleForm() {
       this.showForm = !this.showForm;
     },
@@ -76,6 +86,9 @@ export default {
       } else {
         this.error = "Weight is required";
       }
+    },
+    deleteWeight(id) {
+      this.$store.dispatch("deleteWeight", id);
     },
   },
 };
@@ -121,5 +134,19 @@ li {
   inline-size: calc(100% - 40px);
   margin-block-start: 20px;
   text-decoration: none;
+}
+.last {
+  display: flex;
+}
+.margin-right {
+  margin-inline-end: 20px;
+}
+.delete {
+  font-weight: 500;
+  margin-inline-start: 15px;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 </style>

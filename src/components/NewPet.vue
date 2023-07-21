@@ -135,6 +135,7 @@ export default {
 }
 .primary-btn {
   inline-size: 100%;
+  margin-block-start: 10px;
 }
 .error {
   color: red;

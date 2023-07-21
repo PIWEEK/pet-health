@@ -12,8 +12,8 @@
           <p class="pet-name">{{ pet.name }}</p>
         </div>
       </div>
+      <a @click="goToAddPet()" class="pet add-btn"><span>Add pet</span></a>
     </div>
-    <a @click="goToAddPet()" class="primary-btn">Add pet</a>
   </div>
 </template>
 
@@ -75,7 +75,7 @@ export default {
 .pet-info {
   color: #ffffff;
   position: absolute;
-  bottom: -30px;
+  bottom: -29px;
   inline-size: 100%;
   background-color: #ff738c;
   text-transform: uppercase;
@@ -101,9 +101,28 @@ export default {
   block-size: 100px;
   margin-inline-end: 10px;
 }
-.primary-btn {
-  inline-size: calc(100% - 70px);
-  margin-block-start: 20px;
-  text-decoration: none;
+.add-btn {
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  background: #ff738c;
+  position: relative;
+
+  &::after {
+    content: "";
+    background: #ff738c;
+    position: absolute;
+    block-size: 27px;
+    inline-size: 100%;
+    bottom: -29px;
+    outline: 2px solid #ff738c;
+    border-radius: 0 0 4px 4px;
+  }
+
+  & span {
+    margin-block-start: 20px;
+  }
 }
 </style>

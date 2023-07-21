@@ -4,6 +4,7 @@ import PetInfo from "../components/PetInfo.vue";
 import BrowseOptions from "../components/BrowseOptions.vue";
 import NewPet from "../components/NewPet.vue";
 import WeightData from "../components/WeightData.vue";
+import MedicalRecords from "../components/MedicalRecords.vue";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: "/weight",
     name: "weight",
     component: WeightData,
+  },
+  {
+    path: "/medical-records",
+    name: "medicalRecords",
+    component: MedicalRecords,
   },
 ];
 

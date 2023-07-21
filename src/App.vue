@@ -1,6 +1,7 @@
 <template>
   <router-link class="header" to="/">
     <h1 class="name">PET HEALTH</h1>
+    <img class="heart" alt="heart" src="./assets/heart.svg" />
   </router-link>
   <div class="subheader" v-if="$route && $route.name !== 'choose-pet'">
     <button
@@ -126,5 +127,22 @@ select {
   position: absolute;
   left: 20px;
   padding: 0;
+}
+.heart {
+  filter: brightness(0) saturate(100%) invert(99%) sepia(53%) saturate(0%)
+    hue-rotate(226deg) brightness(109%) contrast(101%);
+  width: 20px;
+  height: 18px;
+  fill: white;
+  margin-left: 10px;
+  margin-top: 2px;
+}
+.no-data {
+  margin-block-start: 50px;
+  font-size: 18px;
+}
+.empty-icon {
+  width: 100px;
+  margin-block-end: 20px;
 }
 </style>
